@@ -24,7 +24,7 @@ jobs:
         run: npm run build
 
       - name: Start
-        run: npm start-prod
+        run: npm run start-prod
 
       - name: Unit Tests
         run: npm run test:unit
