@@ -51,7 +51,7 @@ jobs:
 
   tag_release:
     needs: [simple_deployment_pipeline]
-    if: github.event.pull_request.merged == true
+    if: ${{ github.event_name == 'push' }}
     runs-on: ubuntu-22.04
     permissions:
       contents: write
@@ -62,7 +62,7 @@ jobs:
           fetch-depth: "actions/checkout@v4"
 
       - name: Bump version and push tag
-        uses: anothrNick/github-tag-action@v1 # Don't use @master or @v1 unless you're happy to test the latest version
+        uses: anothrNick/github-tag-action@1.71.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # if you don't want to set write permissions use a PAT token
           WITH_V: true
