@@ -3,5 +3,5 @@
 echo "Build script"
 # add the commands here
 
-echo "npm install"
-echo "npm build"
+exec npm install
+exec npm run build
