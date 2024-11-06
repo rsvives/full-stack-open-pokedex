@@ -25,7 +25,7 @@ export default [
     }
   },
   {
-    ignores: ['dist/**', 'test/**', 'e2e/**'],
+    ignores: ['dist/**', 'test/**', 'e2e/**', 'test-results/**', 'tests-examples/**'],
   },
   {
     rules: {
