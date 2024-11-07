@@ -41,7 +41,7 @@ jobs:
       SKIPPED_COMMIT: ${{contains(toJson(github.event.commits.*.message),'#skip')}}
       PUSH_MAIN: ${{github.event_name == 'push'}}
 
-    if: ${{github.env.PUSH_MAIN && github.env.SKIPPED_COMMIT == 'false'}}
+    if: ${{env.PUSH_MAIN && env.SKIPPED_COMMIT == 'false'}}
 
     steps:
       - uses: actions/checkout@v4
