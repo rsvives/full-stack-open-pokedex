@@ -21,6 +21,6 @@ jobs:
         name: skip commit test
         run: echo "skipping commit- ${{env.COMMIT_MESSAGE}}"
 
-      - if: ${{ github.env.SKIP_COMMIT == 'false' }}
+      - if: ${{ env.SKIP_COMMIT == 'false' }}
         name: NOT skipping commit test
         run: echo "not skipping commit - ${{env.COMMIT_MESSAGE}}"
