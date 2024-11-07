@@ -14,8 +14,10 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v4
+      - name: condition check
+        run: echo "${{env.SKIPPED_COMMIT}}"
 
-      - if: ${{ github.env.SKIP_COMMIT == 'true' }}
+      - if: ${{ env.SKIPPED_COMMIT == 'true' }}
         name: skip commit test
         run: echo "skipping commit- ${{env.COMMIT_MESSAGE}}"
 
