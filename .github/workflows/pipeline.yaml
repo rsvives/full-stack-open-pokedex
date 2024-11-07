@@ -37,11 +37,7 @@ jobs:
     runs-on: ubuntu-22.04
     permissions:
       contents: write
-    env:
-      SKIPPED_COMMIT: ${{contains(toJson(github.event.commits.*.message),'#skip')}}
-      PUSH_MAIN: ${{github.event_name == 'push'}}
-
-    if: ${{env.PUSH_MAIN && env.SKIPPED_COMMIT == 'false'}}
+    if: ${{github.env.PUSH_MAIN && github.env.SKIPPED_COMMIT == 'false'}}
 
     steps:
       - uses: actions/checkout@v4
