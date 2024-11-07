@@ -64,7 +64,7 @@ jobs:
 
   tag_release:
     # needs: [simple_deployment_pipeline]
-    if: ${{ github.env.SKIPPED_COMMIT == 'false' && github.env.PUSH_MAIN=='true' }}
+    if: ${{ (github.env.SKIPPED_COMMIT == 'false') && (github.env.PUSH_MAIN == 'true') }}
     runs-on: ubuntu-22.04
     permissions:
       contents: write
