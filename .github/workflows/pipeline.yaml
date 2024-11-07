@@ -1,8 +1,8 @@
 name: Deployment pipeline
 env:
   SKIPPED_COMMIT: ${{contains(toJson(github.event.commits.*.message),'#skip')}}
-  PUSH_MAIN: ${{github.event_name == 'push'}}
-  NEW_TAG_RESELASE: ${{contains(toJson(github.event.commits.*.message),'#skip')=='false' && github.event_name == 'push'}}
+  PUSH_MAIN: ${{toJson(github.event_name) == 'push'}}
+  NEW_TAG_RESELASE: ${{contains(toJson(github.event.commits.*.message),'#skip') == 'false' && toJson(github.event_name) == 'push'}}
 on:
   push:
     branches:
