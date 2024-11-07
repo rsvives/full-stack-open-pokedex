@@ -1,7 +1,8 @@
 name: Testing stuff
 
 env:
-  COMMIT_MESSAGES: ${{toJson(github.event.commits.message)}}
+  GITHUB_CONTEXT: ${{ github }}
+  # COMMIT_MESSAGES: ${{github.event.commits.message}}
   # SKIP_COMMIT: ${{contains(github.env.COMMIT_MESSAGES,'#skip')}}
 
 on:
@@ -15,15 +16,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: github context
+        run: echo "${{toJson(env.GITHUB_CONTEXT)}}"
+
+      - name: commit message
         env:
-          GITHUB_CONTEXT: ${{ github }}
-        run: echo "$GITHUB_CONTEXT"
-      - name: commits
-        env:
-          COMMITS: ${{ toJson(github.event.commits) }}
-        run: echo "$COMMITS"
-      - name: commit messages
-        run: echo "${{github.env.COMMIT_MESSAGES}}"
+          MESSAGE: ${{ toJson(github.event.commits.message) }}
+        run: echo "$MESSAGE"
 
       # - if: ${{ github.env.SKIP_COMMIT == 'true' }}
       #   name: skip commit test
