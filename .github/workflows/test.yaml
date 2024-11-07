@@ -1,7 +1,7 @@
 name: Testing stuff
 
 env:
-  COMMIT_MESSAGES: ${{toJson(github.event.commits.*.message)}}
+  COMMIT_MESSAGES: ${{toJson(github.event.commits.message)}}
   # SKIP_COMMIT: ${{contains(github.env.COMMIT_MESSAGES,'#skip')}}
 
 on:
