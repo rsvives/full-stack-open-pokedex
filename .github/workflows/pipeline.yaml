@@ -27,6 +27,9 @@ jobs:
         run: echo ${{env.NEW_TAG_RESELASE}}
       - name: event name
         run: echo ${{toJson(github.event_name)}}
+      - if: env.PUSH_MAIN && env.SKIPPED_COMMIT
+        name: test
+        run: echo "testing works"
 
   tag_release:
     runs-on: ubuntu-22.04
