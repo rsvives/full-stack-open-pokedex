@@ -20,8 +20,12 @@ jobs:
       #
       - if: ${{ env.SKIPPED_COMMIT == 'true' }}
         name: skip commit test
-        run: echo "skipping commit- ${{env.COMMIT_MESSAGE}}"
+        run: echo "skipping commit- ${{env.SKIPPED_COMMIT}}"
 
       - if: ${{ env.SKIPPED_COMMIT == 'false' }}
         name: NOT skipping commit test
-        run: echo "not skipping - ${{env.COMMIT_MESSAGE}}"
+        run: echo "not skipping - ${{env.SKIPPED_COMMIT}}"
+
+      - if: ${{ env.SKIPPED_COMMIT == 'false' && 2>1}}
+        name: NOT skipping && 2>1
+        run: echo "not skipping - ${{env.SKIPPED_COMMIT}}, ${{2>1}}, ${{env.SKIPPED_COMMIT == 'false' && 2>1 }}"
