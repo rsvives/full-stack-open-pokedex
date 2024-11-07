@@ -10,7 +10,7 @@ env:
   NOT_CONTAINS: ${{!contains('something','asd')}}
   NOT_CONTAINS_2: ${{contains('something','asd')== 'false'}}
   SEVERAL_CONDITIONS: ${{contains('something','some') && 2>1 }}
-
+#
 on:
   push:
     branches:
