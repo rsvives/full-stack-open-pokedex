@@ -31,7 +31,7 @@ jobs:
 
       - if: ${{env.PUSH_MAIN && env.SKIPPED_COMMIT == 'false'}}
         name: push && not skipped
-        run: echo "another testing works ${{env.PUSH_MAIN}}, ${{env.SKIPPED_COMMIT}}, ${{env.PUSH_MAIN && env.SKIPPED_COMMIT}}"
+        run: echo "another testing works ${{env.PUSH_MAIN}}, ${{env.SKIPPED_COMMIT == 'false'}}, ${{env.PUSH_MAIN && env.SKIPPED_COMMIT == 'false'}}"
   #
   tag_release:
     if: ${{github.env.PUSH_MAIN && github.env.SKIPPED_COMMIT == 'false'}}
