@@ -4,9 +4,9 @@ env:
   PUSH_MAIN: ${{github.event_name == 'push'}}
   NEW_TAG_RESELASE: ${{contains(toJson(github.event.commits.*.message),'#skip')=='false' && github.event_name == 'push'}}
 on:
-  # push:
-  #   branches:
-  #     - main
+  push:
+    branches:
+      - main
   pull_request:
     branches: [main]
     types: [opened, synchronize]
@@ -51,6 +51,14 @@ jobs:
   #     - name: Trigger deployment
   #       if: ${{ github.event_name == 'push' }}
   #       run: curl ${{secrets.RENDER_DEPLOY_HOOK}}
+
+  debug_info:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: condition new tag release
+        run: echo ${{env.NEW_TAG_RESELASE}}
+      - name: event name
+        run: echo ${{github.event_name}}
 
   tag_release:
     # needs: [simple_deployment_pipeline]
