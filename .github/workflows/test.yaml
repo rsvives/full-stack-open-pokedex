@@ -23,4 +23,4 @@ jobs:
 
       - if: ${{ env.SKIP_COMMIT == 'false' }}
         name: NOT skipping commit test
-        run: echo "not skipping commit - ${{env.COMMIT_MESSAGE}}"
+        run: echo "not skipping - ${{env.COMMIT_MESSAGE}}"
