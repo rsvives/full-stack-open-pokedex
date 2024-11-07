@@ -34,10 +34,10 @@ jobs:
         run: echo "another testing works ${{env.PUSH_MAIN}}, ${{env.SKIPPED_COMMIT == 'false'}}, ${{env.PUSH_MAIN && env.SKIPPED_COMMIT == 'false'}}"
   #
   tag_release:
-    if: ${{env.PUSH_MAIN && env.SKIPPED_COMMIT == 'false'}}
     runs-on: ubuntu-22.04
     permissions:
       contents: write
+    if: ${{github.env.PUSH_MAIN && github.env.SKIPPED_COMMIT == 'false'}}
     steps:
       - uses: actions/checkout@v4
         with:
