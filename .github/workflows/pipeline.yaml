@@ -82,7 +82,7 @@ jobs:
       contents: write
 
     steps:
-      - if: env.NOT_SKIPPED
+      - if: ${{env.NOT_SKIPPED}}
         name: tag release 1
         run: echo "tag-releasing-test"
       # - uses: actions/checkout@v4
