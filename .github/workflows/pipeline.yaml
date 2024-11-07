@@ -29,7 +29,7 @@ jobs:
         run: echo ${{toJson(github.event_name)}}
       - if: env.PUSH_MAIN && env.SKIPPED_COMMIT
         name: test
-        run: echo "testing works"
+        run: echo "another testing works"
 
   tag_release:
     runs-on: ubuntu-22.04
