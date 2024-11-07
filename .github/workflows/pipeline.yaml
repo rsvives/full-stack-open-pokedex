@@ -76,13 +76,14 @@ jobs:
 
   tag_release:
     # needs: [simple_deployment_pipeline]
-    if: github.env.PUSH_MAIN
+    # if: github.env.PUSH_MAIN
     runs-on: ubuntu-22.04
     permissions:
       contents: write
 
     steps:
-      - name: tag release 1
+      - if: env.NOT_SKIPPED
+        name: tag release 1
         run: echo "tag-releasing"
       # - uses: actions/checkout@v4
       #   with:
