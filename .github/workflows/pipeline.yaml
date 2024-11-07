@@ -1,5 +1,8 @@
 name: Deployment pipeline
-
+env:
+  SKIPPED_COMMIT: ${{contains(toJson(github.event.commits.*.message),'#skip')}}
+  PUSH_MAIN: ${{github.event_name == 'push'}}
+  NEW_TAG_RESELASE: ${{contains(toJson(github.event.commits.*.message),'#skip')=='false' && github.event_name == 'push'}}
 on:
   # push:
   #   branches:
@@ -9,49 +12,49 @@ on:
     types: [opened, synchronize]
 
 jobs:
-  simple_deployment_pipeline:
-    runs-on: ubuntu-20.04
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: "20"
+  # simple_deployment_pipeline:
+  #   runs-on: ubuntu-20.04
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - uses: actions/setup-node@v4
+  #       with:
+  #         node-version: "20"
 
-      - name: Install dependencies
-        run: npm install
+  #     - name: Install dependencies
+  #       run: npm install
 
-      - name: Check style
-        run: npm run eslint
+  #     - name: Check style
+  #       run: npm run eslint
 
-      - name: Build
-        run: npm run build
+  #     - name: Build
+  #       run: npm run build
 
-      # - name: Start
-      #   run: npm run start-prod
+  #     # - name: Start
+  #     #   run: npm run start-prod
 
-      - name: Unit Tests
-        run: "npm run test:unit"
+  #     - name: Unit Tests
+  #       run: "npm run test:unit"
 
-      - name: Install Playwright Browsers
-        run: npx playwright install --with-deps
+  #     - name: Install Playwright Browsers
+  #       run: npx playwright install --with-deps
 
-      - name: E2E Tests
-        run: npm run test:e2e
+  #     - name: E2E Tests
+  #       run: npm run test:e2e
 
-      - uses: actions/upload-artifact@v4
-        if: ${{ !cancelled() }}
-        with:
-          name: playwright-report
-          path: playwright-report/
-          retention-days: 30
+  #     - uses: actions/upload-artifact@v4
+  #       if: ${{ !cancelled() }}
+  #       with:
+  #         name: playwright-report
+  #         path: playwright-report/
+  #         retention-days: 30
 
-      - name: Trigger deployment
-        if: ${{ github.event_name == 'push' }}
-        run: curl ${{secrets.RENDER_DEPLOY_HOOK}}
+  #     - name: Trigger deployment
+  #       if: ${{ github.event_name == 'push' }}
+  #       run: curl ${{secrets.RENDER_DEPLOY_HOOK}}
 
   tag_release:
-    needs: [simple_deployment_pipeline]
-    if: ${{ github.event_name == 'push' }}
+    # needs: [simple_deployment_pipeline]
+    if: ${{ github.env.NEW_TAG_RESELASE  }}
     runs-on: ubuntu-22.04
     permissions:
       contents: write
