@@ -3,6 +3,7 @@ name: Testing stuff
 env:
   GITHUB_CONTEXT: ${{ toJson(github) }}
   COMMIT_MESSAGE: ${{toJson(github.event.commits.*.message)}}
+  SKIPPED_COMMIT: ${{contains(toJson(github.event.commits.*.message),'#skip')}}
 on:
   push:
     branches:
@@ -13,8 +14,11 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v4
-      - name: github context
-        run: echo "${{env.GITHUB_CONTEXT}}"
 
-      - name: commit message
-        run: echo "${{env.COMMIT_MESSAGE}}"
+      - if: ${{ github.env.SKIP_COMMIT == 'true' }}
+        name: skip commit test
+        run: echo "skipping commit- ${{env.COMMIT_MESSAGE}}"
+
+      - if: ${{ github.env.SKIP_COMMIT == 'false' }}
+        name: NOT skipping commit test
+        run: echo "not skipping commit - ${{env.COMMIT_MESSAGE}}"
