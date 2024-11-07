@@ -1,8 +1,8 @@
 name: Testing stuff
 
 env:
-COMMIT_MESSAGES: ${{ toJson(github.event.commits.*.message) }}
-SKIP_COMMIT: ${{contains($COMMIT_MESSAGES,'#skip')}}
+  COMMIT_MESSAGES: ${{ toJson(github.event.commits.*.message) }}
+  SKIP_COMMIT: ${{contains(github.env.COMMIT_MESSAGES,'#skip')}}
 
 on:
   push:
@@ -23,11 +23,12 @@ jobs:
           COMMITS: ${{ toJson(github.event.commits) }}
         run: echo "$COMMITS"
       - name: commit messages
-        env:
-        #   COMMIT_MESSAGES: ${{ toJson(github.event.commits.*.message) }}
-        run: echo "$COMMIT_MESSAGES"
-      - name: skip commit test
-        if: ${{ github.env.SKIP_COMMIT == 'true' }}
+        run: echo "${{github.env.co}}"
+
+      - if: ${{ github.env.SKIP_COMMIT == 'true' }}
+        name: skip commit test
         run: echo "skipping commit"
-        if: ${{ github.env.SKIP_COMMIT == 'false' }}
+
+      - if: ${{ github.env.SKIP_COMMIT == 'false' }}
+        name: NOT skipping commit test
         run: echo "not skipping commit"
