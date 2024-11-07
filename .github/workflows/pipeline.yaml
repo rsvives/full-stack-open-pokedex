@@ -23,7 +23,6 @@ jobs:
         run: echo ${{toJson(github.event_name)}}
 
   tag_release:
-    if:
     runs-on: ubuntu-22.04
     permissions:
       contents: write
