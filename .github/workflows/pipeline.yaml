@@ -59,8 +59,8 @@ jobs:
         run: echo ${{env.NEW_TAG_RESELASE}}
       - name: event name
         run: echo ${{toJson(github.event_name)}}
-      - name: event details
-        run: echo ${{toJson(github.event)}}
+      # - name: event details
+      #   run: echo ${{toJson(github.event)}}
 
   tag_release:
     # needs: [simple_deployment_pipeline]
