@@ -2,14 +2,15 @@ name: Deployment pipeline
 
 env:
   SKIPPED_COMMIT: ${{contains(toJson(github.event.commits.*.message),'#skip')}}
-  PUSH_MAIN: ${{github.event_name == 'push'}}
+  GITHUB_PUSH_MAIN: ${{github.event_name == 'push'}}
   NEW_TAG_RESELASE: ${{(contains(toJson(github.event.commits.*.message),'#skip') == 'false') && (github.event_name == 'push')}}
   NOT_SKIPPED: ${{(contains(toJson(github.event.commits.*.message),'#skip') == 'false')}}
   CONTAINS: ${{contains('something','some') == 'true'}}
   CONTAINS_2: ${{contains('something','some')}}
-  NOT_CONTAINS: ${{contains('something','some')}}
-  NOT_CONTAINS_2: ${{contains('something','some')== 'false'}}
+  NOT_CONTAINS: ${{!contains('something','asd')}}
+  NOT_CONTAINS_2: ${{contains('something','asd')== 'false'}}
   SEVERAL_CONDITIONS: ${{contains('something','some') && 2>1 }}
+
 on:
   push:
     branches:
@@ -20,6 +21,46 @@ on:
     types: [opened, synchronize]
 
 jobs:
+  # simple_deployment_pipeline:
+  #   runs-on: ubuntu-20.04
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - uses: actions/setup-node@v4
+  #       with:
+  #         node-version: "20"
+
+  #     - name: Install dependencies
+  #       run: npm install
+
+  #     - name: Check style
+  #       run: npm run eslint
+
+  #     - name: Build
+  #       run: npm run build
+
+  #     # - name: Start
+  #     #   run: npm run start-prod
+
+  #     - name: Unit Tests
+  #       run: "npm run test:unit"
+
+  #     - name: Install Playwright Browsers
+  #       run: npx playwright install --with-deps
+
+  #     - name: E2E Tests
+  #       run: npm run test:e2e
+
+  #     - uses: actions/upload-artifact@v4
+  #       if: ${{ !cancelled() }}
+  #       with:
+  #         name: playwright-report
+  #         path: playwright-report/
+  #         retention-days: 30
+
+  # - name: Trigger deployment
+  #   if: ${{ github.event_name == 'push' }}
+  #   run: curl ${{secrets.RENDER_DEPLOY_HOOK}}
+
   debug_info:
     runs-on: ubuntu-22.04
     steps:
@@ -32,12 +73,13 @@ jobs:
       - if: ${{env.PUSH_MAIN && env.SKIPPED_COMMIT == 'false'}}
         name: push && not skipped
         run: echo "another testing works ${{env.PUSH_MAIN}}, ${{env.SKIPPED_COMMIT == 'false'}}, ${{env.PUSH_MAIN && env.SKIPPED_COMMIT == 'false'}}"
-  #
+
   tag_release:
+    # needs: [simple_deployment_pipeline]
+    if: github.env.PUSH_MAIN
     runs-on: ubuntu-22.04
     permissions:
       contents: write
-    if: ${{github.env.PUSH_MAIN && github.env.SKIPPED_COMMIT == 'false'}}
 
     steps:
       - uses: actions/checkout@v4
