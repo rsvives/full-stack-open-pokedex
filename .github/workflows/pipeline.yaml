@@ -34,6 +34,7 @@ jobs:
         run: echo "another testing works ${{env.PUSH_MAIN}}, ${{env.SKIPPED_COMMIT}}, ${{env.PUSH_MAIN && env.SKIPPED_COMMIT}}"
   #
   tag_release:
+    if: ${{github.env.PUSH_MAIN && github.env.SKIPPED_COMMIT == 'false'}}
     runs-on: ubuntu-22.04
     permissions:
       contents: write
