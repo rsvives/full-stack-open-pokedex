@@ -4,7 +4,7 @@ env:
   SKIPPED_COMMIT: ${{contains(toJson(github.event.commits.*.message),'#skip')}}
   GITHUB_PUSH_MAIN: ${{github.event_name == 'push'}}
   NEW_TAG_RESELASE: ${{(contains(toJson(github.event.commits.*.message),'#skip') == 'false') && (github.event_name == 'push')}}
-  NOT_SKIPPED: ${{(contains(toJson(github.event.commits.*.message),'#skip') == 'false')}}
+  NOT_SKIPPED: ${{(!contains(toJson(github.event.commits.*.message),'#skip'))}}
   CONTAINS: ${{contains('something','some') == 'true'}}
   CONTAINS_2: ${{contains('something','some')}}
   NOT_CONTAINS: ${{!contains('something','asd')}}
