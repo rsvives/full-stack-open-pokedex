@@ -28,8 +28,7 @@ jobs:
       - name: event name
         run: echo ${{toJson(github.event_name)}}
 
-      - if: ${{env.PUSH_MAIN && env.SKIPPED_COMMIT}}
-        name: test
+      - if: env.PUSH_MAIN && env.SKIPPED_COMMIT
         run: echo "another testing works ${{env.PUSH_MAIN}}, ${{env.SKIPPED_COMMIT}}, ${{env.PUSH_MAIN && env.SKIPPED_COMMIT}}"
 
   tag_release:
