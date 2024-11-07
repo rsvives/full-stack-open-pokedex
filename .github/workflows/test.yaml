@@ -1,7 +1,7 @@
 name: Testing stuff
 
 env:
-  GITHUB_CONTEXT: ${{ github }}
+  GITHUB_CONTEXT: ${{ toJson(github) }}
 
 on:
   push:
@@ -14,7 +14,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: github context
-        run: echo "${{toJson(env.GITHUB_CONTEXT)}}"
+        run: echo "${{env.GITHUB_CONTEXT}}"
 
       - name: commit message
         env:
