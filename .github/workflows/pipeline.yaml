@@ -84,7 +84,7 @@ jobs:
     steps:
       - if: env.NOT_SKIPPED
         name: tag release 1
-        run: echo "tag-releasing"
+        run: echo "tag-releasing-test"
       # - uses: actions/checkout@v4
       #   with:
       #     ref: ${{ github.event.pull_request.merge_commit_sha }}
