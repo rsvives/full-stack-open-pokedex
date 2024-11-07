@@ -8,6 +8,7 @@ on:
   push:
     branches:
       - main
+      - new-branch
 
 jobs:
   a_test_job:
