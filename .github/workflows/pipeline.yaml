@@ -32,7 +32,7 @@ jobs:
       - if: ${{env.PUSH_MAIN && env.SKIPPED_COMMIT == 'false'}}
         name: push && not skipped
         run: echo "another testing works ${{env.PUSH_MAIN}}, ${{env.SKIPPED_COMMIT}}, ${{env.PUSH_MAIN && env.SKIPPED_COMMIT}}"
-
+  #
   tag_release:
     runs-on: ubuntu-22.04
     permissions:
