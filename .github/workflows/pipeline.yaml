@@ -12,6 +12,7 @@ on:
   pull_request:
     branches: [main]
     types: [opened, synchronize]
+
 jobs:
   debug_info:
     runs-on: ubuntu-22.04
@@ -22,7 +23,7 @@ jobs:
         run: echo ${{toJson(github.event_name)}}
 
   tag_release:
-    if: ${{ github.env.NEW_TAG_RESELASE == 'true' }}
+    if:
     runs-on: ubuntu-22.04
     permissions:
       contents: write
