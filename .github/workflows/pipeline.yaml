@@ -75,6 +75,10 @@ jobs:
   tag_release:
     runs-on: ubuntu-22.04
     steps:
+      - uses: actions/checkout@v4
+      - name: condition check
+        run: echo "${{env}}"
+
       - if: ${{env.NOT_SKIPPED}}
         name: tag release 1
         run: echo "tag-releasing- not skipped"
