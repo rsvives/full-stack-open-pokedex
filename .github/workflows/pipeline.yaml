@@ -3,6 +3,7 @@ name: Deployment pipeline
 env:
   SKIPPED_COMMIT: ${{contains(toJson(github.event.commits.*.message),'#skip')}}
   PUSH_EVENT: ${{github.event_name == 'push'}}
+  HEAD_COMMIT: ${{toJson(github.event.head_commit)}}
 on:
   push:
     branches:
@@ -60,7 +61,10 @@ jobs:
       # - name: github head commit
       #   run: echo ${{github.event.head_commit}}
       - name: github all commits messages
-        run: echo ${{(join(toJson(github.event.commits.*.message)))}}
+        run: echo ${{join(github.event.commits.*.message)}}
+
+      - name: github all skip
+        run: echo ${{contains(join(github.event.commits.*.message),'#skip')}}
 
   tag_release:
     if: ${{ github.event_name == 'push' && !contains(github.event.head_commit.message, '#skip') }}
