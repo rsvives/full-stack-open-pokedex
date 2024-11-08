@@ -2,7 +2,7 @@ name: Deployment pipeline
 
 env:
   SKIPPED_COMMIT: ${{contains(toJson(github.event.commits.*.message),'#skip')}}
-  GITHUB_PUSH_MAIN: ${{github.event_name == 'push'}}
+  PUSH_EVENT: ${{github.event_name == 'push'}}
   NEW_TAG_RESELASE: ${{(contains(toJson(github.event.commits.*.message),'#skip') == 'false') && (github.event_name == 'push')}}
   NOT_SKIPPED: ${{(!contains(toJson(github.event.commits.*.message),'#skip'))}}
   CONTAINS: ${{contains('something','some') == 'true'}}
@@ -62,15 +62,16 @@ jobs:
   #   run: curl ${{secrets.RENDER_DEPLOY_HOOK}}
 
   debug_info:
+    if: ${{github.env.SKIPPED_COMMIT == 'false'}}
     runs-on: ubuntu-22.04
     steps:
       - name: condition new tag release
         run: echo ${{env.NEW_TAG_RESELASE}}
       - name: event name
         run: echo ${{toJson(github.event_name)}}
-      - if: ${{env.PUSH_MAIN && env.SKIPPED_COMMIT == 'false'}}
+      - if: ${{env.PUSH_EVENT && env.SKIPPED_COMMIT == 'false'}}
         name: push && not skipped
-        run: echo "another testing works ${{env.PUSH_MAIN}}, ${{env.SKIPPED_COMMIT == 'false'}}, ${{env.PUSH_MAIN && env.SKIPPED_COMMIT == 'false'}}"
+        run: echo "another testing works ${{env.PUSH_EVENT}}, ${{env.SKIPPED_COMMIT == 'false'}}, ${{env.PUSH_EVENT && env.SKIPPED_COMMIT == 'false'}}"
 
   tag_release:
     runs-on: ubuntu-22.04
@@ -79,7 +80,7 @@ jobs:
       - name: condition check
         run: echo "${{env}}"
 
-      - if: ${{env.NOT_SKIPPED}}
+      - if: ${{env.NOT_SKIPPED == 'true'}}
         name: tag release 1
         run: echo "tag-releasing- not skipped"
       - if: ${{env.SKIPPED_COMMIT == 'true'}}
@@ -91,6 +92,6 @@ jobs:
       - if: env.SKIPPED_COMMIT
         name: tag release skipped 3
         run: echo "tag skipped 3 ${{env.SKIPPED_COMMIT}}"
-      - if: env.SKIPPED_COMMIT == 'true'
+      - if: env.SKIPPED_COMMIT == 'true' && env.PUSH_EVENT == 'true'
         name: tag release skipped 4
         run: echo "tag skipped 4 ${{env.SKIPPED_COMMIT}}"
