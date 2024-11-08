@@ -2,13 +2,7 @@ name: Deployment pipeline
 
 env:
   SKIPPED_COMMIT: ${{contains(toJson(github.event.commits.*.message),'#skip')}}
-<<<<<<< HEAD
-  PUSH_MAIN: ${{github.event_name == 'push'}}
-  NEW_TAG_RESELASE: ${{(contains(toJson(github.event.commits.*.message),'#skip') == 'false') && (github.event_name == 'push')}}
-
-=======
   PUSH_EVENT: ${{github.event_name == 'push'}}
->>>>>>> 448bd6d (github data)
 on:
   push:
     branches:
@@ -16,28 +10,6 @@ on:
   pull_request:
     branches: [main]
     types: [opened, synchronize]
-<<<<<<< HEAD
-jobs:
-  debug_info:
-    runs-on: ubuntu-22.04
-    steps:
-      - name: condition new tag release
-        run: echo ${{env.NEW_TAG_RESELASE}}
-      - name: event name
-        run: echo ${{toJson(github.event_name)}}
-
-  tag_release:
-    if: ${{ github.env.NEW_TAG_RESELASE == 'true' }}
-    runs-on: ubuntu-22.04
-    permissions:
-      contents: write
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.pull_request.merge_commit_sha }}
-          fetch-depth: "actions/checkout@v4"
-
-=======
 
 jobs:
   simple_deployment_pipeline:
@@ -100,15 +72,11 @@ jobs:
           ref: ${{ github.event.pull_request.merge_commit_sha }}
           fetch-depth: "actions/checkout@v4"
 
->>>>>>> 448bd6d (github data)
       - name: Bump version and push tag
         uses: anothrNick/github-tag-action@1.71.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # if you don't want to set write permissions use a PAT token
           WITH_V: true
           DEFAULT_BUMP: patch
-<<<<<<< HEAD
-=======
 #
 
->>>>>>> 448bd6d (github data)
