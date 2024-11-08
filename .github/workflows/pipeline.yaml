@@ -91,3 +91,6 @@ jobs:
       - if: env.SKIPPED_COMMIT
         name: tag release skipped 3
         run: echo "tag skipped 3 ${{env.SKIPPED_COMMIT}}"
+      - if: env.SKIPPED_COMMIT == 'true'
+        name: tag release skipped 4
+        run: echo "tag skipped 4 ${{env.SKIPPED_COMMIT}}"
