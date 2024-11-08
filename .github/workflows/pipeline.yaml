@@ -32,18 +32,18 @@ jobs:
       - name: Unit Tests
         run: "npm run test:unit"
 
-      #     - name: Install Playwright Browsers
-      #       run: npx playwright install --with-deps
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
 
-      #     - name: E2E Tests
-      #       run: npm run test:e2e
+      - name: E2E Tests
+        run: npm run test:e2e
 
-      #     - uses: actions/upload-artifact@v4
-      #       if: ${{ !cancelled() }}
-      #       with:
-      #         name: playwright-report
-      #         path: playwright-report/
-      #         retention-days: 30
+      - uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 30
 
       - name: Trigger deployment
         if: ${{ env.PUSH_EVENT == 'true' }}
@@ -57,11 +57,11 @@ jobs:
         run: echo ${{toJson(github.event_name)}}
       - name: github action
         run: echo ${{toJson(github.action)}}
-      - name: github
-        run: echo ${{toJson(github)}}
+      - name: github event
+        run: echo ${{toJson(github.event)}}
 
   tag_release:
-    if: ${{ 1>2 && github.event_name == 'push' && !contains(github.event.head_commit.message, '#skip') }}
+    if: ${{ github.event_name == 'push' && !contains(github.event.head_commit.message, '#skip') }}
     needs: [simple_deployment_pipeline]
     runs-on: ubuntu-22.04
     permissions:
