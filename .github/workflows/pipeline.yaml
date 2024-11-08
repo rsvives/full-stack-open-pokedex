@@ -62,7 +62,7 @@ jobs:
   #   run: curl ${{secrets.RENDER_DEPLOY_HOOK}}
 
   debug_info:
-    if: ${{github.env.SKIPPED_COMMIT == 'false'}}
+    if: github.env.SKIPPED_COMMIT == 'true'
     runs-on: ubuntu-22.04
     steps:
       - name: condition new tag release
