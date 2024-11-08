@@ -60,13 +60,19 @@ jobs:
   # - name: Trigger deployment
   #   if: ${{ github.event_name == 'push' }}
   #   run: curl ${{secrets.RENDER_DEPLOY_HOOK}}
+  debug_github:
+    runs-on: ubuntu-22.04
+    env:
+      GH: ${{toJson(github)}}
+    steps:
+      - name: github
+        run: echo $GH
 
   debug_info:
-    if: github.env.SKIPPED_COMMIT == 'true'
     runs-on: ubuntu-22.04
     steps:
-      - name: condition new tag release
-        run: echo ${{env.NEW_TAG_RESELASE}}
+      - name: github variable
+        run: echo ${{toJson(github)}}
       - name: event name
         run: echo ${{toJson(github.event_name)}}
       - if: ${{env.PUSH_EVENT && env.SKIPPED_COMMIT == 'false'}}
