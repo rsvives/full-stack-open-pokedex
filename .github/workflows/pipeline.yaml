@@ -63,7 +63,7 @@ jobs:
   debug_github:
     runs-on: ubuntu-22.04
     env:
-      GH: ${{SKIPPED_COMMIT}}
+      GH: ${{toJson(vars)}}
     steps:
       - name: github
         run: echo $GH
