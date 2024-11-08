@@ -2,9 +2,7 @@ name: Deployment pipeline
 
 env:
   SKIPPED_COMMIT: ${{contains(toJson(github.event.commits.*.message),'#skip')}}
-  PUSH_MAIN: ${{github.event_name == 'push'}}
-  NEW_TAG_RESELASE: ${{(contains(toJson(github.event.commits.*.message),'#skip') == 'false') && (github.event_name == 'push')}}
-
+  PUSH_EVENT: ${{github.event_name == 'push'}}
 on:
   push:
     branches:
@@ -12,17 +10,59 @@ on:
   pull_request:
     branches: [main]
     types: [opened, synchronize]
+
 jobs:
+  simple_deployment_pipeline:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Check style
+        run: npm run eslint
+
+      - name: Build
+        run: npm run build
+
+      - name: Unit Tests
+        run: "npm run test:unit"
+
+      #     - name: Install Playwright Browsers
+      #       run: npx playwright install --with-deps
+
+      #     - name: E2E Tests
+      #       run: npm run test:e2e
+
+      #     - uses: actions/upload-artifact@v4
+      #       if: ${{ !cancelled() }}
+      #       with:
+      #         name: playwright-report
+      #         path: playwright-report/
+      #         retention-days: 30
+
+      - name: Trigger deployment
+        if: ${{ env.PUSH_EVENT == 'true' }}
+        run: curl ${{secrets.RENDER_DEPLOY_HOOK}}
+
   debug_info:
     runs-on: ubuntu-22.04
     steps:
-      - name: condition new tag release
-        run: echo ${{env.NEW_TAG_RESELASE}}
-      - name: event name
+      - uses: actions/checkout@v4
+      - name: github event_name
         run: echo ${{toJson(github.event_name)}}
+      - name: github action
+        run: echo ${{toJson(github.action)}}
+      - name: github
+        run: echo ${{toJson(github)}}
 
   tag_release:
-    if: ${{ github.env.NEW_TAG_RESELASE == 'true' }}
+    if: ${{ 1>2 && github.event_name == 'push' && !contains(github.event.head_commit.message, '#skip') }}
+    needs: [simple_deployment_pipeline]
     runs-on: ubuntu-22.04
     permissions:
       contents: write
@@ -38,3 +78,5 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # if you don't want to set write permissions use a PAT token
           WITH_V: true
           DEFAULT_BUMP: patch
+#
+
