@@ -61,7 +61,7 @@ jobs:
       # - name: github head commit
       #   run: echo ${{github.event.head_commit}}
       - name: github all commits messages
-        run: echo ${{join(github.event.commits.*.message)}}
+        run: echo ${{join(github.event.commits.message)}}
 
       - name: github all skip
         run: echo ${{contains(join(github.event.commits.*.message),'#skip')}}
