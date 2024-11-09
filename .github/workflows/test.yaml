@@ -19,21 +19,21 @@ jobs:
       - name: condition check
         run: echo "${{env.SKIPPED_COMMIT}}"
 
-      - name: Test
-        run: exit 1
+      # - name: Test
+      #   run: exit 1
 
       - name: Test success
         uses: rjstone/discord-webhook-notify@v1.0.4
-        if: success()
+        # if: success()
         with:
           severity: info
           details: Test Succeeded!
           webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
 
-      - name: Test Failure
-        uses: rjstone/discord-webhook-notify@v1.0.4
-        if: failure()
-        with:
-          severity: error
-          details: Test Failed!
-          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
+      # - name: Test Failure
+      #   uses: rjstone/discord-webhook-notify@v1.0.4
+      #   if: failure()
+      #   with:
+      #     severity: error
+      #     details: Test Failed!
+      #     webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
