@@ -34,13 +34,15 @@ jobs:
         if: failure()
         with:
           webhook-url: ${{ secrets.DISCORD_WEBHOOK }}
-          embed-color: 14701393
+          # embed-color: 14701393
+          embed-title: this is the title
           content: "Test failed"
 
       - name: Discord Webhook Action on succeed
         uses: tsickert/discord-webhook@v5.3.0
         if: success()
         with:
+          embed-color: 6144854
           webhook-url: ${{ secrets.DISCORD_WEBHOOK }}
           content: "Test succeded"
 
