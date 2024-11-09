@@ -20,7 +20,7 @@ jobs:
       # run: echo "${{env.SKIPPED_COMMIT}}"
 
       - name: Test
-        run: exit 1
+        run: exit 0
 
       # - name: Test success
       #   uses: rjstone/discord-webhook-notify@v1.0.4
