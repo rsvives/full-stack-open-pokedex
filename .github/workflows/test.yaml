@@ -26,7 +26,7 @@ jobs:
       #   run: exit 1
 
       - name: Test success
-        uses: rjstone/discord-webhook-notify@v1
+        uses: rjstone/discord-webhook-notify@v1.0.4
         # if: success()
         with:
           severity: info
