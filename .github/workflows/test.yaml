@@ -20,8 +20,8 @@ jobs:
       # - name: condition check
       # run: echo "${{env.SKIPPED_COMMIT}}"
 
-      # - name: Test
-      #   run: exit 1
+      - name: Test
+        run: exit 1
 
       # - name: Test success
       #   uses: rjstone/discord-webhook-notify@v1.0.4
@@ -30,11 +30,20 @@ jobs:
       #     details: Test Succeeded!
       #     webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
 
-      - name: Discord Webhook Action
+      - name: Discord Webhook Action on fail
         uses: tsickert/discord-webhook@v5.3.0
+        if: failure()
         with:
           webhook-url: ${{ secrets.DISCORD_WEBHOOK }}
-          content: "Test"
+          content: "Test failed"
+
+      - name: Discord Webhook Action on succeed
+        uses: tsickert/discord-webhook@v5.3.0
+        if: success()
+        with:
+          webhook-url: ${{ secrets.DISCORD_WEBHOOK }}
+          content: "Test failed"
+
       # - name: Test Failure
       #   uses: rjstone/discord-webhook-notify@v1.0.4
       #   if: failure()
