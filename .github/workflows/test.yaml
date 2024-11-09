@@ -17,22 +17,24 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
-        with:
-          node-version: "16"
-      - name: condition check
-        run: echo "${{env.SKIPPED_COMMIT}}"
+      # - name: condition check
+      # run: echo "${{env.SKIPPED_COMMIT}}"
 
       # - name: Test
       #   run: exit 1
 
-      - name: Test success
-        uses: rjstone/discord-webhook-notify@v1.0.4
-        # if: success()
-        with:
-          severity: info
-          details: Test Succeeded!
-          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
+      # - name: Test success
+      #   uses: rjstone/discord-webhook-notify@v1.0.4
+      #   with:
+      #     severity: info
+      #     details: Test Succeeded!
+      #     webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
 
+      - name: Discord Webhook Action
+        uses: tsickert/discord-webhook@v5.3.0
+        with:
+          webhook-url: ${{ secrets.WEBHOOK_URL }}
+          content: "Test"
       # - name: Test Failure
       #   uses: rjstone/discord-webhook-notify@v1.0.4
       #   if: failure()
