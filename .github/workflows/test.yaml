@@ -33,10 +33,10 @@ jobs:
         uses: tsickert/discord-webhook@v5.3.0
         if: failure()
         env:
-          DISCORD_EMBEDS: '[{"color": "red"}]'
+          DISCORD_EMBEDS: '[{"color": "red", "title": "Test failed"}]'
         with:
           webhook-url: ${{ secrets.DISCORD_WEBHOOK }}
-          content: "Test failed"
+          # content: "Test failed"
 
       - name: Discord Webhook Action on succeed
         uses: tsickert/discord-webhook@v5.3.0
