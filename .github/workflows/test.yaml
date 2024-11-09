@@ -20,7 +20,8 @@ jobs:
       # run: echo "${{env.SKIPPED_COMMIT}}"
 
       - name: Test
-        run: echo ${{github}} && exit 1
+        # run: echo ${{github}} && exit 0
+        run: exit 0
 
       # - name: Test success
       #   uses: rjstone/discord-webhook-notify@v1.0.4
@@ -36,7 +37,7 @@ jobs:
           embed-color: 14701393
           username: Github Actions
           avatar-url: https://avatars.githubusercontent.com/u/9919?v=4
-          embed-title: ❌  Deployment failed on ${{github.repository}} by __@${{github.event.commits[0].author.username}}__
+          embed-title: ❌  Deployment failed on ${{github.repository}}
           embed-description: "**Repository:** [${{github.repository}}](${{github.event.repository.html_url}}) \n**Latest Commit:** [${{github.event.commits[0].id}}](${{github.event.commits[0].url}}) \n**By:** ${{github.event.commits[0].author.username}}"
           webhook-url: ${{ secrets.DISCORD_WEBHOOK }}
           # content: "Test failed"
@@ -48,6 +49,6 @@ jobs:
           username: Github Actions
           avatar-url: https://avatars.githubusercontent.com/u/9919?v=4
           embed-color: 6144854
-          embed-title: ✅  Test succeed
-          embed-description: This is a test that has succeeded \n is this *second* line?
+          embed-title: 🚀  New version deployed of ${{github.repository}}
+          embed-description: "**Repository:** [${{github.repository}}](${{github.event.repository.html_url}}) \n**Latest Commit:** [${{github.event.commits[0].id}}](${{github.event.commits[0].url}}) \n**By:** ${{github.event.commits[0].author.username}} \n**URL:**[link](https://full-stack-open-pokedex-1-0y5t.onrender.com)"
           webhook-url: ${{ secrets.DISCORD_WEBHOOK }}
