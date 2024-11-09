@@ -4,23 +4,52 @@ env:
   GITHUB_CONTEXT: ${{ toJson(github) }}
   COMMIT_MESSAGE: ${{toJson(github.event.commits.*.message)}}
   SKIPPED_COMMIT: ${{contains(toJson(github.event.commits.*.message),'#skip')}}
+  TRUE_CONDITION: ${{'true'}}
 on:
   push:
     branches:
       - main
+      - feature
 
 jobs:
   a_test_job:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v4
-      - name: condition check
-        run: echo "${{env.SKIPPED_COMMIT}}"
+      # - name: condition check
+      # run: echo "${{env.SKIPPED_COMMIT}}"
 
-      - if: ${{ env.SKIPPED_COMMIT == 'true' }}
-        name: skip commit test
-        run: echo "skipping commit- ${{env.COMMIT_MESSAGE}}"
+      - name: Test
+        # run: echo ${{github}} && exit 0
+        run: exit 0
 
-      - if: ${{ env.SKIPPED_COMMIT == 'false' }}
-        name: NOT skipping commit test
-        run: echo "not skipping - ${{env.COMMIT_MESSAGE}}"
+      # - name: Test success
+      #   uses: rjstone/discord-webhook-notify@v1.0.4
+      #   with:
+      #     severity: info
+      #     details: Test Succeeded!
+      #     webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
+
+      # - name: Discord Webhook Action on fail
+      #   uses: tsickert/discord-webhook@v5.3.0
+      #   if: failure()
+      #   with:
+      #     content: This is a test
+      #     embed-color: 14701393
+      #     username: Github Actions
+      #     avatar-url: https://avatars.githubusercontent.com/u/9919?v=4
+      #     embed-title: ❌  Deployment failed on ${{github.repository}}
+      #     embed-description: "**Repository:** [${{github.repository}}](${{github.event.repository.html_url}}) \n**Latest Commit:** [${{github.event.commits[0].id}}](${{github.event.commits[0].url}}) \n**By:** ${{github.event.commits[0].author.username}}"
+      #     webhook-url: ${{ secrets.DISCORD_WEBHOOK }}
+      #     # content: "Test failed"
+
+      # - name: Discord Webhook Action on succeed
+      #   uses: tsickert/discord-webhook@v5.3.0
+      #   if: success()
+      #   with:
+      #     username: Github Actions
+      #     avatar-url: https://avatars.githubusercontent.com/u/9919?v=4
+      #     embed-color: 6144854
+      #     embed-title: 🚀  New version deployed of ${{github.repository}}
+      #     embed-description: "**Repository:** [${{github.repository}}](${{github.event.repository.html_url}}) \n**Latest Commit:** [${{github.event.commits[0].id}}](${{github.event.commits[0].url}}) \n**By:** ${{github.event.commits[0].author.username}} \n**URL:** [follow link](https://full-stack-open-pokedex-1-0y5t.onrender.com)"
+      #     webhook-url: ${{ secrets.DISCORD_WEBHOOK }}
