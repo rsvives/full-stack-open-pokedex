@@ -33,7 +33,7 @@ jobs:
         uses: tsickert/discord-webhook@v5.3.0
         if: failure()
         env:
-          DISCORD_EMBEDS: '[{"color": "red", "title": "Test failed"}]'
+          DISCORD_EMBEDS: '[{"title": "test failed", "color": "14177041"}]'
         with:
           webhook-url: ${{ secrets.DISCORD_WEBHOOK }}
           # content: "Test failed"
