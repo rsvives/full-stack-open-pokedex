@@ -4,10 +4,12 @@ env:
   GITHUB_CONTEXT: ${{ toJson(github) }}
   COMMIT_MESSAGE: ${{toJson(github.event.commits.*.message)}}
   SKIPPED_COMMIT: ${{contains(toJson(github.event.commits.*.message),'#skip')}}
+  TRUE_CONDITION: ${{'true'}}
 on:
   push:
     branches:
       - main
+      - feature
 
 jobs:
   a_test_job:
@@ -17,10 +19,21 @@ jobs:
       - name: condition check
         run: echo "${{env.SKIPPED_COMMIT}}"
 
-      - if: ${{ env.SKIPPED_COMMIT == 'true' }}
-        name: skip commit test
-        run: echo "skipping commit- ${{env.COMMIT_MESSAGE}}"
+      - name: Test
+        run: exit 1
 
-      - if: ${{ env.SKIPPED_COMMIT == 'false' }}
-        name: NOT skipping commit test
-        run: echo "not skipping - ${{env.COMMIT_MESSAGE}}"
+      - name: Test success
+        uses: rjstone/discord-webhook-notify@v1.0.4
+        if: success()
+        with:
+          severity: info
+          details: Test Succeeded!
+          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
+
+      - name: Test Failure
+        uses: rjstone/discord-webhook-notify@v1
+        if: failure()
+        with:
+          severity: error
+          details: Test Failed!
+          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
