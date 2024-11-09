@@ -20,7 +20,7 @@ jobs:
       # run: echo "${{env.SKIPPED_COMMIT}}"
 
       - name: Test
-        run: exit 0
+        run: exit 1
 
       # - name: Test success
       #   uses: rjstone/discord-webhook-notify@v1.0.4
@@ -35,6 +35,8 @@ jobs:
         with:
           webhook-url: ${{ secrets.DISCORD_WEBHOOK }}
           embed-color: 14701393
+          username: Github Actions
+          avatar-url: https://avatars.githubusercontent.com/u/9919?v=4
           embed-title: ❌ Test failed
           embed-description: This is a test that has failed
           # content: "Test failed"
