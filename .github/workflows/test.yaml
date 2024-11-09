@@ -34,9 +34,10 @@ jobs:
         if: failure()
         with:
           webhook-url: ${{ secrets.DISCORD_WEBHOOK }}
-          # embed-color: 14701393
-          embed-title: this is the title
-          content: "Test failed"
+          embed-color: 14701393
+          embed-title: ❌ Test failed
+          embed-description: This is a test that has failed
+          # content: "Test failed"
 
       - name: Discord Webhook Action on succeed
         uses: tsickert/discord-webhook@v5.3.0
@@ -44,7 +45,9 @@ jobs:
         with:
           embed-color: 6144854
           webhook-url: ${{ secrets.DISCORD_WEBHOOK }}
-          content: "Test succeded"
+          embed-title: ✅ Test succeed
+          embed-description: This is a test that has succeeded
+          # content: "Test succeded"
 
       # - name: Test Failure
       #   uses: rjstone/discord-webhook-notify@v1.0.4
