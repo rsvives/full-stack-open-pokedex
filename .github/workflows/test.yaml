@@ -37,7 +37,7 @@ jobs:
           username: Github Actions
           avatar-url: https://avatars.githubusercontent.com/u/9919?v=4
           embed-title: ❌  Test failed
-          embed-description: This is a test that has failed \n  is this the second line??
+          embed-description: "This is a test that has failed \nis this the second line??"
           webhook-url: ${{ secrets.DISCORD_WEBHOOK }}
           # content: "Test failed"
 
