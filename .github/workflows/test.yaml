@@ -36,8 +36,8 @@ jobs:
           embed-color: 14701393
           username: Github Actions
           avatar-url: https://avatars.githubusercontent.com/u/9919?v=4
-          embed-title: ❌  Deployment failed on ${{github.repository}}
-          embed-description: "**Repository:** [${{github.repository}}](${{github.repository.html_url}}) \n**Latest Commit:** [${{github.event.commits[0].id}}](${{github.event.commits[0].url}})"
+          embed-title: ❌  Deployment failed on ${{github.repository}} by @${{github.event.commits[0].author.username}}
+          embed-description: "**Repository:** [${{github.repository}}](${{github.repository.html_url}}) \n**Latest Commit:** [${{github.event.commits[0].id}}](${{github.event.commits[0].url}}) \n**By**"
           webhook-url: ${{ secrets.DISCORD_WEBHOOK }}
           # content: "Test failed"
 
