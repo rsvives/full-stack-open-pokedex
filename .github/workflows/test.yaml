@@ -16,7 +16,6 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
       # - name: condition check
       # run: echo "${{env.SKIPPED_COMMIT}}"
 
@@ -33,6 +32,8 @@ jobs:
       - name: Discord Webhook Action on fail
         uses: tsickert/discord-webhook@v5.3.0
         if: failure()
+        env:
+          DISCORD_EMBEDS: '[{"color": "red"}]'
         with:
           webhook-url: ${{ secrets.DISCORD_WEBHOOK }}
           content: "Test failed"
