@@ -5,10 +5,10 @@ on:
   #   - cron: "00 9 * * *"
   push:
     branches:
-      - main
+      - health
 
 env:
-  PROJECT_URL:
+  PROJECT_URL: https://full-stack-open-pokedex-1-0y5t.onrender.com/health
 
 jobs:
   ping:
