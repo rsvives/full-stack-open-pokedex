@@ -3,9 +3,6 @@ name: Health Check
 on:
   schedule:
     - cron: "00 9 * * *"
-  push:
-    branches:
-      - health
 
 env:
   PROJECT_URL: https://full-stack-open-pokedex-1-0y5t.onrender.com/health
