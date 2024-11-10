@@ -44,7 +44,8 @@ jobs:
           embed-color: 6144854
           embed-title: ✅  Everything looks good!
           embed-description: "**Repository:** [${{github.repository}}](${{github.event.repository.html_url}}) \n**Latest Commit:** [${{github.event.commits[0].id}}](${{github.event.commits[0].url}}) \n**By:** ${{github.event.commits[0].author.username}} \n**URL:** [follow link](https://full-stack-open-pokedex-1-0y5t.onrender.com/health)"
-          embed-footer: image by Flaticon.com
+          embed-footer-text: image by Flaticon.com
+          webhook-url: ${{ secrets.DISCORD_WEBHOOK }}
 
       - name: Discord notification on fail
         uses: tsickert/discord-webhook@v5.3.0
@@ -57,4 +58,5 @@ jobs:
           embed-color: 14701393
           embed-title: ❌  Something went wrong! Production site is down
           embed-description: "**Repository:** [${{github.repository}}](${{github.event.repository.html_url}}) \n**Latest Commit:** [${{github.event.commits[0].id}}](${{github.event.commits[0].url}}) \n**By:** ${{github.event.commits[0].author.username}} \n**URL:** [follow link](https://full-stack-open-pokedex-1-0y5t.onrender.com/health)"
-          embed-footer: image by Flaticon.com
+          embed-footer-text: image by Flaticon.com
+          webhook-url: ${{ secrets.DISCORD_WEBHOOK }}
